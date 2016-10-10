@@ -12,12 +12,11 @@ const instance1 = instancify([1,2,3]);
 ## Guarantees
 - All data accessible from instancify is read only
 
-- No external references to the instancify internal data so must
-use instancify methods or custom methods on data
+- No external references to the instancify internal data so must use instancify methods to access data
 
 - Every write returns a brand new instance with brand new references
 
-- Can only set an instance once so instance always follow a linear progression with no diversions
+- Can only set an instance once so instance always follow a linear path
 
 ### Uses
 Basic use
