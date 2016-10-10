@@ -5,7 +5,7 @@ Simple CoW (copy on write) strategy for javascript data structures.
 ## Getting Started
 npm install instancify
 ```javascript
-const instancify = require("instancify");
+const instancify = require("instancify").default;
 const instance1 = instancify([1,2,3]);
 ```
 

@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
 var _utils = require("./utils");
 
 var returnPartiallyAppliedFunction = function returnPartiallyAppliedFunction(state, partiallyAppliedFunction) {
@@ -85,8 +90,9 @@ var initConfigData = function initConfigData(userConfig) {
         customClone: userConfig.customClone
     };
 };
-
-module.exports = function (initialData) {
+var instancify = function instancify(initialData) {
     var userConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     return createNewInstance((0, _utils.clone)(userConfig, initialData), initialData, initConfigData(userConfig));
 };
+
+exports.default = instancify;
