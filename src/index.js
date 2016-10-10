@@ -69,8 +69,5 @@ const initConfigData = (userConfig) => ({
     shouldClone: userConfig.shouldClone,
     customClone: userConfig.customClone
 });
-const instancify = (initialData, userConfig = {}) => createNewInstance(clone(userConfig, initialData), initialData, initConfigData(userConfig));
 
-export {
-    instancify as default
-}
+module.exports = (initialData, userConfig = {}) => createNewInstance(clone(userConfig, initialData), initialData, initConfigData(userConfig));
