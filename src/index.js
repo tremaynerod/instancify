@@ -38,6 +38,11 @@ const lift = (state, secureData) => newMethods => {
     extend(state.configData.customGetters, newMethods.customGetters || {});
     return _writeNewInstance(state, secureData);
 }
+let latestInstance = null;
+const setLatestInstance = newInstance => {
+    latestInstance = newInstance;
+    return newInstance;
+}
 const addCustomMethods = (obj, configData, insecureData, writeNewInstanceWithTransformationPartial) => convertCustomFunctionsToTransformations(obj, configData, insecureData, writeNewInstanceWithTransformationPartial);
 const createNewInstance = (secureData, insecureData, configData) => {
     const state = {
@@ -50,14 +55,16 @@ const createNewInstance = (secureData, insecureData, configData) => {
     const writeNewInstanceWithTransformationPartial = writeNewInstanceWithTransformation(state, secureData);
 
     return addFrozenInstanceToInstanceData(
-        deepFreeze(
-            new Instancify(insecureData, state.configData.instanceNumber++, addCustomMethods({
-                lift: lift(state, secureData),
-                writeNewInstance: writeNewInstance(state),
-                writeNewInstanceWithTransformation: writeNewInstanceWithTransformationPartial,
-                writeNewInstanceWithPath: writeNewInstanceWithPath(state, secureData)
-            }, configData, insecureData, writeNewInstanceWithTransformationPartial)),
-        state.configData.shouldFreeze),
+        setLatestInstance(
+            deepFreeze(
+                new Instancify(insecureData, state.configData.instanceNumber++, addCustomMethods({
+                    lift: lift(state, secureData),
+                    getLatestInstance: () => latestInstance,
+                    writeNewInstance: writeNewInstance(state),
+                    writeNewInstanceWithTransformation: writeNewInstanceWithTransformationPartial,
+                    writeNewInstanceWithPath: writeNewInstanceWithPath(state, secureData)
+                }, configData, insecureData, writeNewInstanceWithTransformationPartial)),
+            state.configData.shouldFreeze)),
     state.instanceData);
 }
 const initConfigData = (userConfig) => ({

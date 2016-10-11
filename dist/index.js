@@ -54,6 +54,11 @@ var lift = function lift(state, secureData) {
         return _writeNewInstance(state, secureData);
     };
 };
+var latestInstance = null;
+var setLatestInstance = function setLatestInstance(newInstance) {
+    latestInstance = newInstance;
+    return newInstance;
+};
 var addCustomMethods = function addCustomMethods(obj, configData, insecureData, writeNewInstanceWithTransformationPartial) {
     return (0, _utils.convertCustomFunctionsToTransformations)(obj, configData, insecureData, writeNewInstanceWithTransformationPartial);
 };
@@ -67,12 +72,15 @@ var createNewInstance = function createNewInstance(secureData, insecureData, con
     };
     var writeNewInstanceWithTransformationPartial = writeNewInstanceWithTransformation(state, secureData);
 
-    return addFrozenInstanceToInstanceData((0, _utils.deepFreeze)(new _utils.Instancify(insecureData, state.configData.instanceNumber++, addCustomMethods({
+    return addFrozenInstanceToInstanceData(setLatestInstance((0, _utils.deepFreeze)(new _utils.Instancify(insecureData, state.configData.instanceNumber++, addCustomMethods({
         lift: lift(state, secureData),
+        getLatestInstance: function getLatestInstance() {
+            return latestInstance;
+        },
         writeNewInstance: writeNewInstance(state),
         writeNewInstanceWithTransformation: writeNewInstanceWithTransformationPartial,
         writeNewInstanceWithPath: writeNewInstanceWithPath(state, secureData)
-    }, configData, insecureData, writeNewInstanceWithTransformationPartial)), state.configData.shouldFreeze), state.instanceData);
+    }, configData, insecureData, writeNewInstanceWithTransformationPartial)), state.configData.shouldFreeze)), state.instanceData);
 };
 var initConfigData = function initConfigData(userConfig) {
     return {

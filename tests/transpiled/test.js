@@ -162,6 +162,19 @@ describe('instancify', function () {
             assert.property(dataInstance2, 'replaceTheData');
             assert.equal(dataInstance3.value, "completely replaced the data");
         });
+
+        it('get latest instance', function () {
+            var dataInstance1 = (0, _dist2.default)(data);
+            var dataInstance2 = dataInstance1.writeNewInstance(["new instance"]);
+            var dataInstance3 = dataInstance2.writeNewInstance(["even newer instance"]);
+            var latestInstanceFromDataInstance1 = dataInstance1.getLatestInstance();
+            var latestInstanceFromDataInstance2 = dataInstance2.getLatestInstance();
+
+            assert.equal(dataInstance3, latestInstanceFromDataInstance1);
+            assert.notEqual(dataInstance3, dataInstance1);
+            assert.equal(dataInstance3, latestInstanceFromDataInstance1);
+            assert.notEqual(dataInstance3, dataInstance2);
+        });
     });
 
     describe("when callback of writeNewInstanceWithTransformation returns a function", function () {

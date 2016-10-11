@@ -184,6 +184,15 @@ const instance2 = instance1.lift({
 });
 ```
 
+- getLatestInstance
+```javascript
+"Get the latest instance"
+const instance1 = instancify(data);
+const instance2 = instance1.writeNewInstanceWithTransformation(someTransformFunction);
+console.log(instance1.getLatestInstance() === instance2)
+//true
+```
+
 ### Tests
 To run test in root directory use command
 `npm run test`
